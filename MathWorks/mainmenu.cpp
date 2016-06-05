@@ -10,23 +10,38 @@
 #include "ui_leaderboard.h"
 #include "settings.h"
 #include "ui_settings.h"
+#include <QSound>
 
 // Constructor and destructor
 MainMenu::MainMenu(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainMenu){
     ui->setupUi(this);
     statusBar()->setSizeGripEnabled(false);
+
+    logIn = new LogInOut();
+    userName = "Player1";
+    //QObject::connect(logIn, SIGNAL(on_ok_clicked()), this, SLOT(setUserName(logIn->getName())));
+    music = new QSound(":/resources/sounds/menu.wav");
+    music->play();
+    music->setLoops(QSound::Infinite);
+
+
 }
 
 MainMenu::~MainMenu(){
     delete ui;
+    delete music;
 }
+
 
 // Go to play game section
 void MainMenu::on_playGame_clicked(){
     // Go to game selection
-    GameSix gameSix;
+    music->stop();
+    GameSix *gameSix = new GameSix(this, userName);
+    gameSix->setAttribute(Qt::WA_DeleteOnClose, true);
     this->hide();
-    gameSix.exec();
+    gameSix->exec();
+    music->play();
     // Bring main menu back after
     this->show();
 }
@@ -35,7 +50,6 @@ void MainMenu::on_playGame_clicked(){
 void MainMenu::on_tutorial_clicked(){
     // Display tutorial dialogue
     Tutorial tutor;
-    tutor.setModal(true);
     tutor.exec();
 }
 
@@ -43,7 +57,6 @@ void MainMenu::on_tutorial_clicked(){
 void MainMenu::on_leaderBoard_clicked(){
     // Display Leaderboard
     LeaderBoard board;
-    board.setModal(true);
     board.exec();
 }
 
@@ -51,20 +64,21 @@ void MainMenu::on_leaderBoard_clicked(){
 void MainMenu::on_settings_clicked(){
     // Go to settings selection
     Settings set;
-    set.setModal(true);
     set.exec();
 }
 
 // Show log in dialog
 void MainMenu::on_logInOut_clicked(){
     // Display log in
-    LogInOut logInOut;
-    logInOut.setModal(true);
-    logInOut.exec();
+    logIn->exec();
     // Take name input into main menu
-    QString nam = logInOut.ui->usernameIn->text();
+    QString nam = logIn->ui->usernameIn->text();
     ui->name->setText(nam);
+    QString name = nam.split(" ").at(0);
+    userName = name;
 }
+
+
 
 
 

@@ -10,6 +10,12 @@ LogInOut::~LogInOut(){
     delete ui;
 }
 
+// Return string in text box
+QString LogInOut::getName(){
+    // Must convert to QString
+    return (ui->usernameIn->text());
+}
+
 // When ok is clicked close close
 void LogInOut::on_ok_clicked(){
     this->close();

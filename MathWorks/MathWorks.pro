@@ -6,11 +6,17 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
 TARGET = MathWorks
 TEMPLATE = app
 
+
+CONFIG += c++11
+macx {
+    QMAKE_CXXFLAGS += -std=c++11 -stdlib=libc++
+    QMAKE_CFLAGS += -std=c++11 -stdlib=libc++
+}
 
 SOURCES += main.cpp \
     mainmenu.cpp \
@@ -19,7 +25,13 @@ SOURCES += main.cpp \
     tutorial.cpp \
     leaderboard.cpp \
     settings.cpp \
-    gameover.cpp
+    gameover.cpp \
+    boardmodel.cpp \
+    gamemodel.cpp \
+    passvalues.cpp \
+    scoreentry.cpp \
+    mathgametimer.cpp \
+    leaderboardmodel.cpp
 
 HEADERS  += \
     mainmenu.h \
@@ -28,7 +40,13 @@ HEADERS  += \
     tutorial.h \
     leaderboard.h \
     settings.h \
-    gameover.h
+    gameover.h \
+    boardmodel.h \
+    gamemodel.h \
+    passvalues.h \
+    scoreentry.h \
+    mathgametimer.h \
+    leaderboardmodel.h
 
 FORMS    += \
     mainmenu.ui \
@@ -38,3 +56,7 @@ FORMS    += \
     leaderboard.ui \
     settings.ui \
     gameover.ui
+
+RESOURCES += \
+    resources.qrc
+
